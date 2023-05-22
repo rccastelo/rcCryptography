@@ -12,7 +12,7 @@ namespace rcCryptography
             return CryptlockMD5(text).Substring(0, 32);
         }
 
-        private static string GetVectorMD5(string text)
+        public static string GetVectorMD5(string text)
         {
             return CryptlockMD5(text).Substring(0, 16);
         }
@@ -79,11 +79,16 @@ namespace rcCryptography
             return result;
         }
 
+        public static string Encrypt(string password)
+        {
+            return Encrypt(password, GetKeyMD5(password), GetVectorMD5(password));
+        }
+
         /// <summary>
         /// Transformar texto comum para texto desconhecido descriptografável
         /// </summary>
         /// <returns></returns>
-        private static string Encrypt(string password, string key, string vector)
+        public static string Encrypt(string password, string key, string vector)
         {
             string secret = null;
 
@@ -130,11 +135,16 @@ namespace rcCryptography
             return secret;
         }
 
+        public static string Decrypt(string password)
+        {
+            return Decrypt(password, GetKeyMD5(password), GetVectorMD5(password));
+        }
+
         /// <summary>
         /// Transformar texto desconhecido descriptografável para texto comum
         /// </summary>
         /// <returns></returns>
-        private static string Decrypt(string password, string key, string vector)
+        public static string Decrypt(string password, string key, string vector)
         {
             string secret = null;
 
@@ -331,6 +341,21 @@ namespace rcCryptography
             }
 
             return secret;
+        }
+
+        public static string GetSecretMD5(string original)
+        {
+            return CryptlockMD5(original);
+        }
+
+        public static string GetSecretSHA1(string original)
+        {
+            return CryptlockSHA1(original);
+        }
+
+        public static string GetSecretSHA256(string original)
+        {
+            return CryptlockSHA256(original);
         }
 
         public static string GetSecretSHA512(string original)
